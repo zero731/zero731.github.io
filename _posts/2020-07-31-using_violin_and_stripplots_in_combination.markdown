@@ -9,7 +9,7 @@ permalink:  using_violin_and_stripplots_in_combination
 ## Bar Plots
 Bar plots (also known as bar graphs or bar charts) are some of the most commonly used methods of visually representing data. They are extremely useful for displaying categorical data, or numerical data that is easily and intuitively binned into a handful of groups. Let's go ahead and look at an example that I'll continue to work with throughout the rest of this post. The graph below is a bar plot, created with Python's Seaborn library. It plots house price along the y-axis (vertical) against house grade (a measure of the relative condition and quality of the home) on the horizontal x-axis. Note that you can also create horizontal bar graphs, and all you would need to do would be to switch the axes.
 
-
+![](https://raw.githubusercontent.com/zero731/learn_blog/master/blog_post_1/Figures/bar_1.png?token=APF3AIMSXOBXBSTKY66L6HC7K7LIIhttp://)
 <img src="https://raw.githubusercontent.com/zero731/learn_blog/master/blog_post_1/Figures/bar_1.png?token=APF3AIMSXOBXBSTKY66L6HC7K7LII">
 
 
