@@ -9,8 +9,7 @@ permalink:  using_violin_and_stripplots_in_combination
 ## Bar Plots
 Bar plots (also known as bar graphs or bar charts) are some of the most commonly used methods of visually representing data. They are extremely useful for displaying categorical data, or numerical data that is easily and intuitively binned into a handful of groups. Let's go ahead and look at an example that I'll continue to work with throughout the rest of this post. The graph below is a bar plot, created with Python's Seaborn library. It plots house price along the y-axis (vertical) against house grade (a measure of the relative condition and quality of the home) on the horizontal x-axis. Note that you can also create horizontal bar graphs, and all you would need to do would be to switch the axes.
 
-![](https://raw.githubusercontent.com/zero731/learn_blog/master/blog_post_1/Figures/bar_1.png?token=APF3AIMSXOBXBSTKY66L6HC7K7LIIhttp://)
-<img src="https://raw.githubusercontent.com/zero731/learn_blog/master/blog_post_1/Figures/bar_1.png?token=APF3AIMSXOBXBSTKY66L6HC7K7LII">
+<img src="https://raw.githubusercontent.com/zero731/learn_blog/master/blog_post_1/Figures/bar_1.png?token=APF3AIPBNTVUVTV7AOUH6227XALQM">
 
 
 For any bar graph, the length or height of each bar represents the relative amount of each category. So here we have 10 bars, one for each grade 3 through 12. It's very easy to see that house price increases with increasing grade. In other words, the bars get taller (higher price) as we move to the right and grade increases. Bar graphs such as this are best used when you want to provide a visual comparison of the central tendencies, usually of the mean (as in the above graph), among different groups. 
@@ -47,7 +46,7 @@ ax.set_title('Effect of Grade on House Price', fontsize=20, weight='bold')
 ## display the graph
 plt.show()
 ```
-<img src="https://raw.githubusercontent.com/zero731/learn_blog/master/blog_post_1/Figures/bar_1.png?token=APF3AIMSXOBXBSTKY66L6HC7K7LII">
+<img src="https://raw.githubusercontent.com/zero731/learn_blog/master/blog_post_1/Figures/bar_1.png?token=APF3AIPBNTVUVTV7AOUH6227XALQM">
 
 So that's how we make that graph. Aside from setting the figsize, adjusting the color palette to something I personally find more aesthetically pleasing, and adding and formatting labels and titles, I did not adjust the main defaults for `sns.barplot()`. Seaborn automatically calculated the mean of each group/ category (all the houses with a certain grade) and used that to set the height of each bar. 
 
@@ -74,7 +73,7 @@ ax.set_title('Effect of Grade on House Price', fontsize=20, weight='bold')
 
 plt.show()
 ```
-<img src="https://raw.githubusercontent.com/zero731/learn_blog/master/blog_post_1/Figures/bar_2.png?token=APF3AIMKQCQ53DWXXHFJKQS7K7PJ6">
+<img src="https://raw.githubusercontent.com/zero731/learn_blog/master/blog_post_1/Figures/bar_2.png?token=APF3AINVCMJ2SUG5AXNZASK7XALV4">
 
 Much better! Now we can see not only the mean price for each group of houses, but also have an idea of how much variation there is around the mean for each group.
 
@@ -86,7 +85,7 @@ The main advantage of bar plots is that, for a reasonable number of categories o
 ## Strip Plots
 Strip plots are essentially a type of scatter plot. They are used to show the spread of observations within each category. Like a regular scatter plot, you end up with a point for each observation in your dataset. These points are grouped (and color-coded) with other observations that fall into the same category. This helps provide a sense of the density of observations according to each category, and allows for a visual comparison of the range and variation of each category. Below is an example strip plot based on the exact same data that was used to make the bar graphs from earlier:
 
-<img src="https://raw.githubusercontent.com/zero731/learn_blog/master/blog_post_1/Figures/strip_1.png?token=APF3AINFIDIYK64G7JFUVBK7K75XK">
+<img src="https://raw.githubusercontent.com/zero731/learn_blog/master/blog_post_1/Figures/strip_1.png?token=APF3AIJVFTFJBARVBRX4R327XALY6">
 
 Well, now we can see exactly why the bar graph never showed confidence intervals for grade 3 houses (if you happened to catch that): there's only one! There's no standard deviation and no quantifiable uncertainty about the mean of a single observation. Not only do we get a sense of the range and variation of each of the categories by looking at this strip plot, we can also see relative disparities in the size of each group. Grade 3 consists of only one house, and grades 4 and 12 are made up of only a handful of observations. The majority of houses fall into grades 7, 8, and 9. In fact, there are so many observations in grades 7, 8, and 9 that those categories look more like bars than clusters of points. In the next section, we'll see how we can fix that.
 
@@ -113,7 +112,7 @@ ax.set_title('Effect of Grade on House Price', fontsize=20, weight='bold')
 ## display the graph
 plt.show()
 ```
-<img src="https://raw.githubusercontent.com/zero731/learn_blog/master/blog_post_1/Figures/strip_1.png?token=APF3AINFIDIYK64G7JFUVBK7K75XK">
+<img src="https://raw.githubusercontent.com/zero731/learn_blog/master/blog_post_1/Figures/strip_1.png?token=APF3AIJVFTFJBARVBRX4R327XALY6">
 
 Once again, aside from setting the figsize, adjusting the color palette, and formatting labels and titles, I did not adjust the main defaults for `sns.stripplot()`. However, as noted before, there are so many observations in grades 7, 8, and 9 that the data points all blur together. We can fix that and make it easier to see how the scatter really is made up of individual observations with the following adjustments to our original block of code:
 ```
@@ -134,7 +133,7 @@ ax.set_title('Effect of Grade on House Price', fontsize=20, weight='bold')
 
 plt.show()
 ```
-<img src="https://raw.githubusercontent.com/zero731/learn_blog/master/blog_post_1/Figures/strip_2.png?token=APF3AIMX32DP67DGSCT2VAK7LAAIC">
+<img src="https://raw.githubusercontent.com/zero731/learn_blog/master/blog_post_1/Figures/strip_2.png?token=APF3AIKUJ3Y2A7ZNZ6LHNT27XAL22">
 
 By specifying a linewidth of 0.5 when calling `sns.stripplot()`, we've added a border to each data point. This makes it easier to pick out individual data point within the clouds, especially when alpha is set to a value less than 1 (in this case 0.6), making each point slightly transparent as well.
 
@@ -174,7 +173,7 @@ ax.set_title('Effect of Grade on House Price', fontsize=20, weight='bold')
 
 plt.show()
 ```
-<img src="https://raw.githubusercontent.com/zero731/learn_blog/master/blog_post_1/Figures/combo_2.png?token=APF3AIKYC44SWY3NCL4KE327LAIA6">
+<img src="https://raw.githubusercontent.com/zero731/learn_blog/master/blog_post_1/Figures/strip_2.png?token=APF3AIKUJ3Y2A7ZNZ6LHNT27XAL22">
 
 The above graph is our bar graph plotted underneath our improved strip plot. I adjusted the alpha of the bars (alpha=0.5) to make them slightly transparent. This way all the individual points show up clearly, and the bars still very obviously show the mean for each group. However, now that we can see the dispersion of points on top of the bars, we really don't need those 95% confidence intervals. Plus I find it distracting that you can only see confidence intervals for one of the bars (maybe two if you look really, really closely). We can drop those from the figure by setting `ci=None`. And while we're making adjustments, let's plot a nice horizontal line to show the mean house price across all the groups:
 
@@ -213,7 +212,7 @@ plt.legend(fontsize=14, loc='lower right')
 
 plt.show()
 ```
-<img src="https://raw.githubusercontent.com/zero731/learn_blog/master/blog_post_1/Figures/combo_3.png?token=APF3AIJAQZV3F5YI7FJNN227LAHEW">
+<img src="https://raw.githubusercontent.com/zero731/learn_blog/master/blog_post_1/Figures/combo_3.png?token=APF3AIIQFNUUP55XTOH3AFC7XAL5E">
 
 Now, from this single graph, we can easily see:
 * the mean of each group (the height of the bar)
