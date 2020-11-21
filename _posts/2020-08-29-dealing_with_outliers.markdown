@@ -11,7 +11,7 @@ Some outliers are worth further exploration and others are not. Those that fall 
 
 Unfortunately, outliers tend to cause problems for certain types of machine learning (ML) algorithms. They are especially problematic for linear models, especially those based on ordinary least squares algorithms such as linear regression. Other types of  ML models can be fairly robust to outliers, especially tree-based algorithms. So the first question you should probably ask yourself before you start worrying too much about outliers in your dataset is **"How does the ML algorithm I want to use handle outliers?"**. If the algorithm(s) you plan to work with don't make strong assumptions about the distribution of variables or the presence of outliers, don't worry about it too much. However I still recommend looking into the presence of outliers while you explore your data.
 
-The remainder of this post will focus primarily on dealing with outliers in the context of multiple linear regression. I will use the King County house sale dataset available [here](https://www.kaggle.com/harlfoxem/housesalesprediction) for examples. If you'd like to open up a notebook and follow along, go ahead and save the dataset and execute the following code:
+The remainder of this post will focus primarily on identifying outliers and being able to extract them from a dataset so they can be removed or adjusted. I will use the King County house sale dataset available [here](https://www.kaggle.com/harlfoxem/housesalesprediction) for examples. If you'd like to open up a notebook and follow along, go ahead and save the dataset and execute the following code:
 ```
 ## import necessary libraries
 import pandas as pd
@@ -48,12 +48,11 @@ for idx, col in enumerate(cols):
     ax.set_title(col, fontsize=16, fontweight='bold')
 
 plt.tight_layout()
-
 plt.show()
 ```
 <img src="https://raw.githubusercontent.com/zero731/learn_blog/master/outlier_blog_post/Figures/boxplots.png">
 
-From the above plot we can see that the distribution of both `price` and `sqft_living` are skewed and likely contain outliers. There appears to be an extreme outlier in the variable `bedrooms`. The variable `condition` appears to have far less extreme values than the other 3.
+From the above plot we can see that the distribution of both `price` and `sqft_living` are skewed and likely contain outliers. There appears to be an extreme outlier in the variable `bedrooms`. The variable `condition` appears to have far less extreme values than the other 3 variables.
 
 The code below produces a histogram showing the distribution of the target `price`:
 ```
@@ -86,7 +85,7 @@ g.ax_marg_x.set_xlim(0, 35);
 ```
 <img src="https://raw.githubusercontent.com/zero731/learn_blog/master/outlier_blog_post/Figures/price_v_bedrooms_joint_outlier.png">
 
-Based on the above plot we can clearly see a single outlying observation of a house that is listed as having more than 30 bedrooms (lower right corner)! We can also better see the distribution of individual houses that sold for more than $2 million and these look more and more like outliers the closer we get to the top left corner of the graph.
+Based on the above plot we can clearly see a single outlying observation of a house that is listed as having more than 30 bedrooms! We can also better see the distribution of individual houses that sold for more than $2 million and these look more and more like outliers the closer we get to the top left corner of the graph.
 For now, let's find that house with over 30 bedrooms and check it out:
 
 ```
@@ -101,7 +100,7 @@ There's our single outlying house. It says it has 33 bedrooms, but the square fo
 But let's investigate a little further. We can look at the median sqft_living for houses grouped by number of bedrooms as follows: `data.groupby('bedrooms').median()[['sqft_living']]`
 <img src="https://raw.githubusercontent.com/zero731/learn_blog/master/outlier_blog_post/Figures/bedroom_grpby_df.png">
 
-It appears that houses with only 3 bedrooms are most similar to our 33 bedroom house in terms of interior living space. And with `data.describe()['bedrooms']` we can see that the median number of bedrooms is 3, the mean is close to 3, and the mode is likely 3 since the 25% and 50% quantiles are both 3. Thus it seems reasonable to replace 33 with 3 bedrooms. That can be accomplished with the following block of code, which will then also replot the jointplot once that observation has been adjusted:
+It appears that houses with only 3 bedrooms are most similar to our 33 bedroom house in terms of interior living space. And with `data.describe()['bedrooms']` we can see that the median number of bedrooms is 3 and the mean is close to 3. Thus it seems reasonable to replace 33 with 3 bedrooms. That can be accomplished with the following block of code, which will then also replot the jointplot once that observation has been adjusted:
 
 ```
 data.loc[data['bedrooms']==33, 'bedrooms'] = 3
@@ -118,7 +117,7 @@ You can adjust the code yourself to check out the distribution and scatter of ot
 
 
 ### Defining Outliers Mathematically
-Once you've visually determined which variables have outliers that you may need to deal with, you need a way of explicitly quantifying and defining those observations. There are a few methods for doing this, two of the most common are based on z-scores and on the interquartile range (IQR). The z-score method essentially defines outliers for a specific variable as any observation with a value more than 3 standard deviations above or below the mean. The following function will return the index of outliers according to the z-score method for a single variable:
+Once you've visually determined which variables have outliers that you may need to deal with, you need a way of explicitly quantifying and defining those observations as outliers. There are a few methods for doing this, two of the most common are based on z-scores and on the interquartile range (IQR). The z-score method essentially defines outliers for a specific variable as any observation with a value more than 3 standard deviations above or below the mean. The following function will return the index of outliers according to the z-score method for a single variable:
 
 ```
 # first import additional necessary library
@@ -166,12 +165,14 @@ def IQR_outliers(variable, verbose=True):
 If we wanted to use these functions to find outliers for the target `price` and then create new datasets where these outliers have been dropped, the following code does the trick:
 
 ```
-## create a series that denotes outliers outliers based on z-scores (True if outlier, False if not)
+## create a series that denotes outliers outliers based on z-scores 
+# (True if outlier, False if not)
 price_z_outliers = z_outliers(data['price'])
 # create a dataset that drops all z-score outliers
 data_z = data[~price_z_outliers]
 
-## create a series that denotes outliers outliers based on IQR (True if outlier, False if not)
+## create a series that denotes outliers outliers based on IQR 
+# (True if outlier, False if not)
 price_IQR_outliers = IQR_outliers(data['price'])
 # create a dataset that drops all IQR outliers
 data_IQR = data[~price_IQR_outliers]
