@@ -33,7 +33,7 @@ Once you've engineered features, you'll want to experiment with including and ex
 It's really not possible to exhaustively cover all the possible ways of engineering features. However, below I've included a few instances of my own experience with attempting to engineer useful features. Even though these examples are very specific to a given problem, my hope is that my general thought process and snippets of code might prove useful to someone looking for inspiration for their own projects.
 
 ### Example - Interaction Features: Sums and Quotients
-Let's say you're trying to predict whether someone gets the flu vaccine and you've got a dataset with information the demographics, opinions, and relevant self-reported behavior of surveyed individuals. The behavioral variables are all binary, with a 1 representing that the individual engages in a behavior that decreases their risk of catching the flu, and 0 indicating that they don't. If all the behavioral variables include the word 'behavioral' in the column name, you could pull out a list of all those variables with the following list comprehension:
+Let's say you're trying to predict whether someone gets the flu vaccine and you've got a dataset with information about the demographics, opinions, and relevant self-reported behavior of surveyed individuals. The behavioral variables are all binary, with a 1 representing that the individual engages in a behavior that decreases their risk of catching the flu, and 0 indicating that they don't. If all the behavioral variables include the word 'behavioral' in the column name, you could pull out a list of all those variables with the following list comprehension:
 
 ```
 behavior_cols = [col for col in flu_df.columns if 'behavioral' in col]
@@ -112,7 +112,7 @@ So now we've got individuals grouped into categories based on their heightened r
 
 
 ### Example - Decomposing Datetime Variables
-If you ever work with a dataset that has dates and or times, you'll definitely want to make sure to do some feature engineering to decompose the original variables into useful features. Otherwise each date or timestamp will be treated as a relatively useless category. If you see you have some form of datetime information in your DataFrame, first check the data type. If it isn't already in the form of a Pandas datetime variable, you'll want to convert it to make use of some very useful methods for extracting information.
+If you ever work with a dataset that has dates and/or times, you'll definitely want to make sure to do some feature engineering to decompose the original variables into useful features. Otherwise each date or timestamp will be treated as a relatively useless category. If you see you have some form of datetime information in your DataFrame, first check the data type. If it isn't already in the form of a Pandas datetime variable, you'll want to convert it to make use of some very useful methods for extracting information.
 ```
 ## use dtypes to check the type of data in our date column
 house_df['date'].dtypes
@@ -158,3 +158,4 @@ house_df[['floors', 'half_floor']][10:15]
 From here you might want to experiment with keeping the indicator variable and possibly rounding down the number of floors in the original `floors` variable. This would group the houses into fewer categories, getting rid of the rare labels. 
 
 
+Feature engineering, like so many things in data science, is an iterative process where experimenting and doubling back to make adjustments and try again is crucial. But the insights you stand to gain into the structure of your data and the potential improvements to model performance are well worth the effort. Plus, if you're relatively new to all this, feature engineering is a great way to get more comfortable working with and manipulating dataframes.
